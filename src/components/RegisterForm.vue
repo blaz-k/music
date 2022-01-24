@@ -140,13 +140,13 @@ export default {
       try {
         await createUserWithEmailAndPassword(auth, values.email, values.password);
       } catch (error) {
+        this.reg_in_submission = false;
+        this.reg_alert_variant = "bg-red-500";
+        this.reg_alert_msg = "An unexpected error occurd. Please try again later:";
+
         // eslint-disable-next-line no-console
         console.log(error);
       }
-
-      this.reg_in_submission = false;
-      this.reg_alert_variant = "bg-red-500";
-      this.reg_alert_msg = "An unexpected error occurd. Please try again later:";
 
       this.reg_alert_variant = "bg-green-500";
       this.reg_alert_msg = "Success! Your account has been created";
