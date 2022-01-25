@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { addDoc, doc, setDoc } from "firebase/firestore";
 
 import { auth, usersCollection } from "../includes/firebase";
 
@@ -20,19 +20,36 @@ export default createStore({
   getters: {
     authModalShow: (state) => state.authModalShow,
   },
+  // db.collection("citites").doc("la").set({})
+  // userCollection.doc(userCred.user.uid).set({})
+
   actions: {
     async register({ commit }, payload) {
       // Auth
-      await createUserWithEmailAndPassword(auth, payload.email, payload.password);
+      const userCred = await createUserWithEmailAndPassword(auth, payload.email, payload.password);
 
       // Database
-      await addDoc(usersCollection, {
+      await setDoc(doc(usersCollection, userCred.user.uid), {
         name: payload.name,
         email: payload.email,
         age: payload.age,
         country: payload.country,
       });
+      // await userCred.user.updateProfile({
+      //   displayName: payload.name,
+      // });
+      await updateProfile(userCred.user, {
+        displayName: payload.name,
+      });
+
       commit("toggleAuth");
+    },
+    init_login({ commit }) {
+      const user = auth.currentUser;
+
+      if (user) {
+        commit("toggleAuth");
+      }
     },
   },
 });
