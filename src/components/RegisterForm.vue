@@ -106,7 +106,9 @@
 
 <script>
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../includes/firebase";
+import { addDoc } from "firebase/firestore";
+
+import { auth, usersCollection } from "../includes/firebase";
 
 export default {
   name: "RegisterForm",
@@ -146,6 +148,23 @@ export default {
 
         // eslint-disable-next-line no-console
         console.log(error);
+      }
+
+      try {
+        await addDoc(usersCollection, {
+          name: values.name,
+          email: values.email,
+          age: values.age,
+          country: values.country,
+        });
+      } catch (error) {
+        this.reg_in_submission = false;
+        this.reg_alert_variant = "bg-red-500";
+        this.reg_alert_msg = "An unexpected error occurd. Please try again later:";
+
+        // eslint-disable-next-line no-console
+        console.log(error);
+        return;
       }
 
       this.reg_alert_variant = "bg-green-500";

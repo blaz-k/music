@@ -1,5 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+// import "firebase/firestore";
+// import "firebase/compat/firestore";
+import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDE0FBPYiTJQ287Jxni3NXpLba0kyByLxg",
@@ -13,6 +16,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+const usersCollection = collection(db, "users");
+
+// const test = addDoc(usersCollection)
 
 // eslint-disable-next-line import/prefer-default-export
-export { auth };
+export { auth, db, usersCollection };
