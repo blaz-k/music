@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import About from "@/views/About.vue";
 import Manage from "@/views/Manage.vue";
+import store from "@/store";
 
 const routes = [
   {
@@ -16,6 +18,9 @@ const routes = [
   },
   {
     path: "/manage-music",
+    meta: {
+      requiresAuth: true,
+    },
     name: "Manage",
     component: Manage,
     beforeEnter: (to, from, next) => {
@@ -39,7 +44,18 @@ const router = createRouter({
   linkExactActiveClass: "text-yellow-500",
 });
 router.beforeEach((to, from, next) => {
-  next();
+  // console.log(to.matched);
+
+  // check if current route needs an authentification -with "some" function
+  if (!to.matched.some((record) => record.meta.requiresAuth)) {
+    next();
+    return;
+  }
+  if (store.state.userLoggedIn) {
+    next();
+  } else {
+    next({ name: "Home" });
+  }
 });
 
 export default router;

@@ -137,18 +137,18 @@
 </template>
 
 <script>
-import store from "../store";
+// import store from "../store";
 
 export default {
   name: "Manage",
-  beforeRouteEnter(to, from, next) {
-    console.log(store.state.userLoggedIn);
-    if (store.state.userLoggedIn) {
-      next();
-    } else {
-      next({ name: "Home" });
-    }
-  },
+  //   beforeRouteEnter(to, from, next) {
+  //     console.log(store.state.userLoggedIn);
+  //     if (store.state.userLoggedIn) {
+  //       next();
+  //     } else {
+  //       next({ name: "Home" });
+  //     }
+  //   },
 };
 </script>
 
