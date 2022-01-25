@@ -156,6 +156,7 @@ export default {
       this.reg_alert_msg = "Success! Your account has been created";
       // eslint-disable-next-line no-console
       console.log(values);
+      window.location.reload();
     },
   },
 };
